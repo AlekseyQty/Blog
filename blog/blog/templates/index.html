@@ -1,16 +1,24 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Posts</h1>
-    {% if posts_list %}
-    <ul>
-        {% for post in posts_list%}
-            <li><a href="{% url 'detail' post.id %}">{{ post.post_title }}</a></li>
-        {% endfor %}
-    </ul>
-    {% else %}
-    <p>No posts yet :(</p>
-    {% endif %}
-
-    <a href=" {% url 'addpost' %}">Add post</a>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="card" style="width: 24rem;">
+            <div class="card-header">
+                Posts
+            </div>
+            {% if posts_list %}
+            <ul class="list-group list-group-flush">
+                {% for post in posts_list%}
+                <a href="{% url 'detail' post.id %}" class="list-group-item">
+                    {{ post.post_title }}</a>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>No posts yet :(</p>
+            {% endif %}
+            <a class="btn btn-primary p-2" href=" {% url 'addpost' %}">Add post</a>
+        </div>
+    </div>
+</div>
 {% endblock %}
