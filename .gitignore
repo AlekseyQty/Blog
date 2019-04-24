@@ -1,2 +1,4 @@
 /.idea/*
 /.vscode/*
+blog/blog/__pycache__/*
+blog/blog/migrations/__pycache__/*
