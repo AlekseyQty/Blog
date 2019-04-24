@@ -10,8 +10,10 @@
             {% if posts_list %}
             <ul class="list-group list-group-flush">
                 {% for post in posts_list%}
+                {% if post.is_hidden == False %}
                 <a href="{% url 'detail' post.id %}" class="list-group-item">
                     {{ post.post_title }}</a>
+                {% endif %}
                 {% endfor %}
             </ul>
             {% else %}
