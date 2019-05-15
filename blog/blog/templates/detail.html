@@ -6,6 +6,18 @@
         <div class="well">
             <p class="mt-3 pt-2">{{ post.post_text }}</p>
         </div>
+        <hr>
+        {% for comment in post.comment_sorted_set.all %}
+        <p>
+            <b>{{comment.author}}</b> : {{comment.body}}
+            {% if comment.reply_to %}
+            | <b>reply to {{comment.reply_to.author}} </b>
+            {% endif %}
+        </p>
+        {% endfor %}
+        <a class="btn btn-primary p-2" href="{{ comment_add_url }}">Add comment</a>
 </div>
+
+
 
 {% endblock %}

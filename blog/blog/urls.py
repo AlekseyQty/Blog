@@ -19,7 +19,8 @@ from . import views
 
 urlpatterns = [
     path('', views.MainPageView.as_view(), name='index'),
-    path('addpost/', views.PostAdd.as_view(), name='addpost'),
-    path('<int:pk>/', views.DetailView.as_view(), name='detail'),
+    path('topic/addpost/', views.PostAdd.as_view(), name='addpost'),
+    path('topic/<int:topic_pk>/add_comment/', views.CommentAdd.as_view(), name='addcomment'),
+    path('topic/<int:pk>/', views.DetailView.as_view(), name='detail'),
     path('admin/', admin.site.urls),
 ]
