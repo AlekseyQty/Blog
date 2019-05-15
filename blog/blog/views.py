@@ -1,6 +1,7 @@
 from django.views import generic
 from django.http import HttpResponse
 from django.utils import timezone
+from django.shortcuts import render
 from .forms import AddPostForm, AddCommentForm
 from .models import Post
 from django.urls import reverse
@@ -25,20 +26,23 @@ class DetailView(generic.DetailView):
     model = Post
     template_name = 'detail.html'
     context_object_name = 'post'
-    # s = Post.objects.order_by('-comment__author')
-    #
-    # def get_queryset(self):
-    #     qs = super().get_queryset()
-    #     s = qs.filter(id=self.kwargs['pk']).order_by('-comment__creation_date')
-    #     for i in s:
-    #         print(i)
-    #     return qs.filter(id=self.kwargs['pk']).order_by('comment__creation_date')
 
+    def increment_visit_counter(self):
+        obj = self.get_object()
+        obj.visit_count += 1
+        obj.save()
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['comment_add_url'] = '/topic/{}/add_comment'.format(context['post'].id)
-        return context
+    def get(self, request, pk):
+        post = self.get_object()
+        url = '/topic/{}/add_comment'.format(post.id)
+        context = {'post': post, 'comment_add_url': url}
+        self.increment_visit_counter()
+        return render(request, self.template_name, context)
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context['comment_add_url'] = '/topic/{}/add_comment'.format(context['post'].id)
+    #     return context
 
 
 class CommentAdd(generic.CreateView):

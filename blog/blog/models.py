@@ -7,6 +7,7 @@ class Post(models.Model):
     post_text = models.CharField(max_length=500)
     post_date = models.DateTimeField(default=datetime.now)
     is_hidden = models.BooleanField(default=False)
+    visit_count = models.PositiveIntegerField(default=0)
 
     def comment_sorted_set(self):
         return self.comment_set.order_by('creation_date')
