@@ -3,7 +3,8 @@
 {% block content %}
 <div class="container mt-5">
     <div class="row justify-content-center">
-        <div class="card" style="width: 24rem;">
+        <div class="card w-50">
+<!--        <div class="card" style="width: 24rem;">-->
             <div class="card-header">
                 Posts
             </div>
@@ -11,8 +12,12 @@
             <ul class="list-group list-group-flush">
                 {% for post in posts_list%}
                 {% if post.is_hidden == False %}
-                <a href="{% url 'detail' post.id %}" class="list-group-item">
-                    {{ post.post_title }}</a>
+                <div class="row">
+                    <div class="col-12 mt-1">
+                        <a href="{% url 'detail' post.id %}" class="list-group-item">
+                            {{ post.post_title }}</a>
+                    </div>
+                </div>
                 {% endif %}
                 {% endfor %}
             </ul>
