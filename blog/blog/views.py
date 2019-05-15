@@ -22,6 +22,17 @@ class MainPageView(generic.ListView):
         ).order_by('-post_date')
 
 
+class PopularView(generic.ListView):
+    model = Post
+    template_name = 'popular.html'
+    context_object_name = 'posts_list'
+
+    def get_queryset(self):
+        return Post.objects.filter(
+            post_date__lte=timezone.now()
+        ).order_by('-visit_count')
+
+
 class DetailView(generic.DetailView):
     model = Post
     template_name = 'detail.html'
