@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="card w-50">
+<!--        <div class="card" style="width: 24rem;">-->
+            <div class="card-header">
+                Search results
+            </div>
+            {% if search_results %}
+            <ul class="list-group list-group-flush">
+                {% for post in search_results%}
+                {% if post.is_hidden == False %}
+                <div class="row">
+                    <div class="col-12 mt-1">
+                        <a href="{% url 'detail' post.id %}" class="list-group-item">
+                            {{ post.post_title }}</a>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>No posts yet :(</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

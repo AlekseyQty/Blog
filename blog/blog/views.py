@@ -7,10 +7,6 @@ from .models import Post
 from django.urls import reverse
 
 
-def hello_world(request):
-    return HttpResponse('Hello, world!')
-
-
 class MainPageView(generic.ListView):
     model = Post
     template_name = 'index.html'
@@ -76,3 +72,13 @@ class PostAdd(generic.CreateView):
     def get_success_url(self):
         return reverse('index')
 
+
+class SearchView(generic.ListView):
+    template_name = 'search_results.html'
+    model = Post
+    context_object_name = 'search_results'
+
+    def get_queryset(self):
+        return (Post.objects.filter(
+            post_title__icontains=self.request.GET['title']
+        ))
