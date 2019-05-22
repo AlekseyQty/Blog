@@ -15,9 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls import url, include
 from . import views
 
 urlpatterns = [
+    url(r'^accounts/', include('django.contrib.auth.urls')),
     path('', views.MainPageView.as_view(), name='index'),
     path('search/', views.SearchView.as_view(), name='search'),
     path('popular/', views.PopularView.as_view(), name='popular'),

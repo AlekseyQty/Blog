@@ -9,6 +9,9 @@ class Post(models.Model):
     is_hidden = models.BooleanField(default=False)
     visit_count = models.PositiveIntegerField(default=0)
 
+    class Meta:
+        permissions = (('can_edit_content', 'Can edit content'),)
+
     def comment_sorted_set(self):
         return self.comment_set.order_by('creation_date')
 

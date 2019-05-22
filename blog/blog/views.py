@@ -17,6 +17,14 @@ class MainPageView(generic.ListView):
             post_date__lte=timezone.now()
         ).order_by('-post_date')
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        num_visits = self.request.session.get('num_visits',0)
+        self.request.session['num_visits'] = num_visits + 1
+        context['num_visits'] = num_visits
+
+        return context
+
 
 class PopularView(generic.ListView):
     model = Post

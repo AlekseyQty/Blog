@@ -24,8 +24,13 @@
             {% else %}
             <p>No posts yet :(</p>
             {% endif %}
+            {% if perms.blog.can_edit_content %}
             <a class="btn btn-primary p-2" href=" {% url 'addpost' %}">Add post</a>
+            {% endif %}
         </div>
+    </div>
+    <div class="row justify-content-center">
+        <p class="mt-2">You have visited forum {{ num_visits }} times</p>
     </div>
 </div>
 {% endblock %}

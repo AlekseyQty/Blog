@@ -15,7 +15,9 @@
             {% endif %}
         </p>
         {% endfor %}
+        {% if perms.blog.can_edit_content %}
         <a class="btn btn-primary p-2" href="{{ comment_add_url }}">Add comment</a>
+        {% endif %}
 </div>
 
 
