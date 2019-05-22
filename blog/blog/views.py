@@ -66,7 +66,8 @@ class CommentAdd(generic.CreateView):
 
     def get_initial(self):
         return {
-            "topic": self.kwargs['topic_pk']
+            "topic": self.kwargs['topic_pk'],
+            "author": self.request.user
         }
 
     def get_success_url(self):
@@ -76,6 +77,11 @@ class CommentAdd(generic.CreateView):
 class PostAdd(generic.CreateView):
     template_name = 'post_add.html'
     form_class = AddPostForm
+
+    def get_initial(self):
+        return {
+            "post_author": self.request.user
+        }
 
     def get_success_url(self):
         return reverse('index')

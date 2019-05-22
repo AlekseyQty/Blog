@@ -7,7 +7,9 @@
         {% csrf_token %}
         {% for field in form %}
         <div class="form-group mt-3 pt-2">
+            {% if not field.is_hidden %}
             {{ field.label_tag }} <br />
+            {% endif %}
             {{ field }}
         </div>
         {% endfor %}
