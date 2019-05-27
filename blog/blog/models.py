@@ -18,7 +18,7 @@ class Post(models.Model):
         return self.comment_set.order_by('creation_date')
 
     def __str__(self):
-        return '{} -> {}'.format(self.pk, self.post_title)
+        return '{}'.format(self.post_title)
 
 
 class Comment(models.Model):

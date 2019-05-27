@@ -3,8 +3,9 @@ from django.http import HttpResponse
 from django.utils import timezone
 from django.shortcuts import render
 from .forms import AddPostForm, AddCommentForm
-from .models import Post
+from .models import Post, User, Comment
 from django.urls import reverse
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class MainPageView(generic.ListView):
@@ -60,7 +61,7 @@ class DetailView(generic.DetailView):
     #     return context
 
 
-class CommentAdd(generic.CreateView):
+class CommentAdd(LoginRequiredMixin, generic.CreateView):
     template_name = 'comment_add.html'
     form_class = AddCommentForm
 
@@ -74,7 +75,7 @@ class CommentAdd(generic.CreateView):
         return '/topic/{}'.format(self.kwargs['topic_pk'])
 
 
-class PostAdd(generic.CreateView):
+class PostAdd(LoginRequiredMixin, generic.CreateView):
     template_name = 'post_add.html'
     form_class = AddPostForm
 
@@ -96,3 +97,30 @@ class SearchView(generic.ListView):
         return (Post.objects.filter(
             post_title__icontains=self.request.GET['title']
         ))
+
+
+class ProfileView(LoginRequiredMixin, generic.ListView):
+    model = User
+    template_name = 'profile.html'
+
+
+class MyPostView(LoginRequiredMixin, generic.ListView):
+    model = Post
+    template_name = 'my_posts.html'
+    context_object_name = 'posts_list'
+
+    def get_queryset(self):
+        return (Post.objects.filter(
+            post_author=self.request.user
+        ))
+
+
+class MyCommentView(LoginRequiredMixin, generic.ListView):
+    model = Comment
+    template_name = 'my_comments.html'
+    context_object_name = 'comments_list'
+
+    def get_queryset(self):
+        return (Comment.objects.filter(
+            author=self.request.user
+        ).order_by('-creation_date'))

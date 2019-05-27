@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">My comments</h1>
+    {% for comment in comments_list %}
+    <b>{{ comment.topic }} : </b>
+            {{comment.body}}
+        <br>
+    <i>Posted on {{comment.creation_date}}</i>
+            {% if comment.reply_to %}
+            | <b>reply to {{comment.reply_to.author}} </b>
+            {% endif %}
+    <br>
+    {% endfor %}
+</div>
+
+{% endblock %}

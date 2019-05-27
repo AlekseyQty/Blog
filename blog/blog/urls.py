@@ -26,5 +26,8 @@ urlpatterns = [
     path('topic/addpost/', views.PostAdd.as_view(), name='addpost'),
     path('topic/<int:topic_pk>/add_comment/', views.CommentAdd.as_view(), name='addcomment'),
     path('topic/<int:pk>/', views.DetailView.as_view(), name='detail'),
+    path('profile/', views.ProfileView.as_view(), name='profile'),
+    path('profile/myposts/', views.MyPostView.as_view(), name='myposts'),
+    path('profile/mycomments/', views.MyCommentView.as_view(), name='mycomments'),
     path('admin/', admin.site.urls),
 ]

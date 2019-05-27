@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="card w-50">
+            <div class="card-header">
+                My posts
+            </div>
+            {% if posts_list %}
+            <ul class="list-group list-group-flush">
+                {% for post in posts_list%}
+                {% if post.is_hidden == False %}
+                <div class="row">
+                    <div class="col-12 mt-1">
+                        <a href="{% url 'detail' post.id %}" class="list-group-item">
+                            {{ post.post_title }}</a>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>No posts yet :(</p>
+            {% endif %}
+            {% if perms.blog.can_edit_content %}
+            <a class="btn btn-primary p-2" href=" {% url 'addpost' %}">Add post</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
