@@ -1,7 +1,7 @@
 from django.views import generic
 from django.http import HttpResponse
 from django.utils import timezone
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .forms import AddPostForm, AddCommentForm
 from .models import Post, User, Comment
 from django.urls import reverse
@@ -51,7 +51,9 @@ class DetailView(generic.DetailView):
     def get(self, request, pk):
         post = self.get_object()
         url = '/topic/{}/add_comment'.format(post.id)
-        context = {'post': post, 'comment_add_url': url}
+        hide_url = '/topic/{}/hide'.format(post.id)
+        show_url = '/topic/{}/show'.format(post.id)
+        context = {'post': post, 'comment_add_url': url, 'hide_url': hide_url, 'show_url': show_url}
         self.increment_visit_counter()
         return render(request, self.template_name, context)
 
@@ -124,3 +126,26 @@ class MyCommentView(LoginRequiredMixin, generic.ListView):
         return (Comment.objects.filter(
             author=self.request.user
         ).order_by('-creation_date'))
+
+
+class HidePostView(LoginRequiredMixin, generic.DetailView):
+    model = Post
+
+    def get(self, request, pk):
+        post = self.get_object()
+        if self.request.user == post.post_author:
+            post.is_hidden = True
+            post.save()
+        return redirect('index')
+
+
+class ShowPostView(LoginRequiredMixin, generic.DetailView):
+    model = Post
+
+    def get(self, request, pk):
+        post = self.get_object()
+        if self.request.user == post.post_author:
+            post.is_hidden = False
+            post.save()
+        return redirect('index')
+

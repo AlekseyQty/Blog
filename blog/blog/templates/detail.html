@@ -20,9 +20,14 @@
         {% endfor %}
         {% if perms.blog.can_edit_content %}
         <a class="btn btn-primary p-2" href="{{ comment_add_url }}">Add comment</a>
+        {% if request.user == post.post_author and post.is_hidden == False%}
+        <a class="btn btn-warning p-2" href="{{ hide_url }}">Hide</a>
+        {% endif %}
+        {% if request.user == post.post_author and post.is_hidden == True%}
+        <a class="btn btn-success p-2" href="{{ show_url }}">Show</a>
+        {% endif %}
         {% endif %}
 </div>
-
 
 
 {% endblock %}
