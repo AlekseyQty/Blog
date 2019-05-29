@@ -1,5 +1,6 @@
 from datetime import datetime
 from django.db import models
+from django.shortcuts import reverse
 from django.contrib.auth.models import User
 
 
@@ -10,6 +11,7 @@ class Post(models.Model):
     post_date = models.DateTimeField(default=datetime.now)
     is_hidden = models.BooleanField(default=False)
     visit_count = models.PositiveIntegerField(default=0)
+    likes = models.ManyToManyField(User, blank=True, related_name='post_likes')
 
     class Meta:
         permissions = (('can_edit_content', 'Can edit content'),)
@@ -19,6 +21,9 @@ class Post(models.Model):
 
     def __str__(self):
         return '{}'.format(self.post_title)
+
+    def get_absolute_url(self):
+        return reverse("detail", kwargs={"pk": self.id})
 
 
 class Comment(models.Model):

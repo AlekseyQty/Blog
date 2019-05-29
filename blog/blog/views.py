@@ -1,7 +1,7 @@
 from django.views import generic
 from django.http import HttpResponse
 from django.utils import timezone
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import AddPostForm, AddCommentForm
 from .models import Post, User, Comment
 from django.urls import reverse
@@ -149,3 +149,12 @@ class ShowPostView(LoginRequiredMixin, generic.DetailView):
             post.save()
         return redirect('index')
 
+
+class PostLikeView(generic.RedirectView):
+    def get_redirect_url(self, *args, **kwargs):
+        obj = get_object_or_404(Post, id = kwargs['pk'])
+        url_ = obj.get_absolute_url()
+        user = self.request.user
+        if user.is_authenticated:
+            obj.likes.add(user)
+        return url_

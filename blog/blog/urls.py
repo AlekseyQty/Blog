@@ -26,6 +26,7 @@ urlpatterns = [
     path('topic/addpost/', views.PostAdd.as_view(), name='addpost'),
     path('topic/<int:topic_pk>/add_comment/', views.CommentAdd.as_view(), name='addcomment'),
     path('topic/<int:pk>/hide/', views.HidePostView.as_view(), name='hidepost'),
+    path('topic/<int:pk>/like/', views.PostLikeView.as_view(), name='like'),
     path('topic/<int:pk>/show/', views.ShowPostView.as_view(), name='showpost'),
     path('topic/<int:pk>/', views.DetailView.as_view(), name='detail'),
     path('profile/', views.ProfileView.as_view(), name='profile'),

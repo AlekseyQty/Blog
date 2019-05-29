@@ -21,12 +21,19 @@
         {% if perms.blog.can_edit_content %}
         <a class="btn btn-primary p-2" href="{{ comment_add_url }}">Add comment</a>
         {% if request.user == post.post_author and post.is_hidden == False%}
-        <a class="btn btn-warning p-2" href="{{ hide_url }}">Hide</a>
+        <a class="btn btn-warning p-2 float-right mr-1" href="{{ hide_url }}">Hide</a>
         {% endif %}
         {% if request.user == post.post_author and post.is_hidden == True%}
         <a class="btn btn-success p-2" href="{{ show_url }}">Show</a>
         {% endif %}
         {% endif %}
+        <br>
+        {% if perms.blog.can_edit_content %}
+            {% if request.user not in post.likes.all %}
+            <a class="btn btn-info p-2 mt-3" href="like">Like</a>
+            {% endif %}
+            {% endif %}
+        <p class="mt-2">Likes: {{ post.likes.count }}</p>
 </div>
 
 
